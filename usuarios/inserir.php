@@ -1,6 +1,26 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
+$erro = null;
+
+// Se o formulário for acionado, capturar as informações
+if($_SERVER["REQUEST_METHOD"] === "POST"){
+    $nome = $_POST["nome"];
+    $email = $_POST["email"];
+    $senha = $_POST["senha"];
+
+    if(empty($nome) || empty($email) || empty($senha)){
+        $erro = "Preencha todos os campos!";
+    } else {
+        // Codificar a senha
+        $senhaCodificada = codificarSenha();
+
+        // Enviar os dados para o banco
+        inserirUsuario();
+
+        // Redirecionar para a lista de usuários
+    }
+}
 
 $titulo = "Adicionar Usuario |";
 require_once BASE_PATH . '/includes/cabecalho.php';
@@ -9,6 +29,9 @@ require_once BASE_PATH . '/includes/cabecalho.php';
 <section class="mb-4 border rounded-3 p-4 border-primary-subtle">
     <h3 class="text-center"><i class="bi bi-plus-circle-fill"></i> Adicionar Usuário</h3>
 
+    <?php if($erro): ?>
+        <p class="alert alert-danger text-center"><?=$erro?></p>
+    <?php endif ?>
 
 
     <form method="post" class="w-75 mx-auto">
