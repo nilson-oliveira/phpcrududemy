@@ -1,5 +1,7 @@
 <?php
 require_once __DIR__ . '/../config.php';
+require_once BASE_PATH . "/src/usuario_crud.php";
+require_once BASE_PATH . "/src/utils.php";
 
 $erro = null;
 
@@ -8,17 +10,18 @@ if($_SERVER["REQUEST_METHOD"] === "POST"){
     $nome = $_POST["nome"];
     $email = $_POST["email"];
     $senha = $_POST["senha"];
-
     if(empty($nome) || empty($email) || empty($senha)){
         $erro = "Preencha todos os campos!";
     } else {
         // Codificar a senha
-        $senhaCodificada = codificarSenha();
+        $senhaCodificada = codificarSenha($senha);
 
         // Enviar os dados para o banco
-        inserirUsuario();
+        inserirUsuario($conexao, $nome, $email, $senhaCodificada);
 
         // Redirecionar para a lista de usuários
+        header("location:listar.php");
+        exit;
     }
 }
 

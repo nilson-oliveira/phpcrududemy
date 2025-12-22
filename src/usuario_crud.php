@@ -9,3 +9,18 @@ function buscarUsuarios(PDO $conexao): array
     $consulta->execute();
     return $consulta->fetchAll(PDO::FETCH_ASSOC);
 }
+
+function inserirUsuario(PDO $conexao, string $nome, string $email, string $senha): void
+{
+    $sql = "INSERT INTO usuarios (nome, email, senha) 
+            VALUES(:nome, :email, :senha)";
+
+    $consulta = $conexao->prepare($sql);
+
+    $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
+    $consulta->bindParam(':email', $email, PDO::PARAM_STR);
+    $consulta->bindParam(':senha', $senha, PDO::PARAM_STR);
+
+    $consulta->execute();
+
+}
