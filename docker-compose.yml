@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: php-apache-curso
+    ports:
+      - "8082:80"
+    volumes:
+      - /home/nilson/dev/udemy/phpcrud/curso-php-crud:/var/www/html/curso-php-crud
+    depends_on:
+      - db
+    networks:
+      - curso-network
+
+  db:
+    image: mysql:8.0
+    container_name: mysql-curso
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: curso_php_crud
+      MYSQL_USER: curso_user
+      MYSQL_PASSWORD: curso_pass
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - curso-network
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: phpmyadmin-curso
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "8083:80"
+    depends_on:
+      - db
+    networks:
+      - curso-network
+
+volumes:
+  mysql-data:
+
+networks:
+  curso-network:
+    driver: bridge
