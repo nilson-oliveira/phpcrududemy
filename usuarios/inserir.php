@@ -7,21 +7,29 @@ $erro = null;
 
 // Se o formulário for acionado, capturar as informações
 if($_SERVER["REQUEST_METHOD"] === "POST"){
-    $nome = $_POST["nome"];
-    $email = $_POST["email"];
+    $nome = sanitizar($_POST["nome"]);
+    $email = sanitizar($_POST["email"], 'email');
     $senha = $_POST["senha"];
+
     if(empty($nome) || empty($email) || empty($senha)){
         $erro = "Preencha todos os campos!";
     } else {
-        // Codificar a senha
-        $senhaCodificada = codificarSenha($senha);
+        try {
+            // Codificar a senha
+            $senhaCodificada = codificarSenha($senha);
+            // Enviar os dados para o banco
+            inserirUsuario($conexao, $nome, $email, $senhaCodificada);
+            // Redirecionar para a lista de usuários
+            header("location:listar.php");
+            exit;
+        } catch(Throwable $e){
+            if($e->getCode() === '23000'){
+                $erro = "E-mail já cadastrado!";
+            } else {
+                $erro = "Erro ao inserir usuário: " . $e->getMessage();
+            }
+        }
 
-        // Enviar os dados para o banco
-        inserirUsuario($conexao, $nome, $email, $senhaCodificada);
-
-        // Redirecionar para a lista de usuários
-        header("location:listar.php");
-        exit;
     }
 }
 
@@ -40,11 +48,11 @@ require_once BASE_PATH . '/includes/cabecalho.php';
     <form method="post" class="w-75 mx-auto">
         <div class="form-group">
             <label for="nome" class="form-label">Nome:</label>
-            <input type="text" name="nome" class="form-control" id="nome">
+            <input value="<?=$_POST['nome'] ?? '' ?>" $type="text" name="nome" class="form-control" id="nome">
         </div>
         <div class="form-group">
             <label for="email" class="form-label">E-mail:</label>
-            <input type="email" name="email" class="form-control" id="email">
+            <input value="<?=$_POST['email'] ?? '' ?>" type="email" name="email" class="form-control" id="email">
         </div>
         <div class="form-group">
             <label for="senha" class="form-label">Senha:</label>
