@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
+exigirLogin();
 
 $titulo = "Editar Produto |";
 require_once BASE_PATH . '/includes/cabecalho.php';

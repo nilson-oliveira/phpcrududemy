@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
+exigirLogin();
 
 $titulo = "Adicionar Produto à Loja |";
 require_once BASE_PATH . '/includes/cabecalho.php';
