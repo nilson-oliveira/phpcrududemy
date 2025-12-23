@@ -1,6 +1,11 @@
 <?php
 require_once __DIR__ . '/config.php';
 
+$mensagens = [
+        'acesso_proibido' => ['Acesso proibido! Você precisa estar logado.', 'danger']
+];
+
+$titulo = "Login |";
 require_once BASE_PATH . '/includes/cabecalho.php';
 ?>
 
@@ -11,7 +16,17 @@ require_once BASE_PATH . '/includes/cabecalho.php';
     <hr>
     <h3>Login</h3>
 
-
+    <?php
+        foreach($mensagens as $elemento => [$mensagem, $tipo]):
+        if(isset($_GET[$elemento])):
+    ?>
+    <div class="alert alert-<?=$tipo?> text-center">
+        <?=$mensagem?>
+    </div>
+    <?php
+    endif;
+    endforeach;
+    ?>
 
     <p class="lead">Entre com seu e-mail e senha para acessar o sistema.</p>
 

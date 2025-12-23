@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../config.php';
 
+$usuarioLogado = usuarioEstaLogado();
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br" data-bs-theme="auto">
@@ -19,13 +21,28 @@ require_once __DIR__ . '/../config.php';
 <body>
 
 <div class="bg-primary text-white py-2">
-    <div class="container">
-    <a href="<?=BASE_URL?>/usuarios/listar.php" class="btn btn-sm btn-outline-light">
-        <i class="bi bi-people"> Gerenciar Usuários</i>
-    </a>
+    <div class="container d-flex justify-content-between align-items-center">
+        <div>
+            <?php if($usuarioLogado): ?>
+                <a href="<?=BASE_URL?>/usuarios/listar.php" class="btn btn-sm btn-outline-light">
+                <i class="bi bi-people"> Gerenciar Usuários</i>
+                </a>
+            <?php endif; ?>
+        </div>
+
+        <div class="d-flex align-items-center">
+        <?php if($usuarioLogado): ?>
+            <i class="bi bi-person-circle me-2"></i>
+            <span class="me-3">Olá, pessoa!</span>
+            <a href="<?=BASE_URL?>/logot.php" class="btn btn-sm btn-outline-light"><i class="bi bi-box-arrow-right me-2"> Sair</i></a>
+        <?php else: ?>
+            <i class="bi bi-person-x me-2"></i><span class="me-2">Você não está logado!</span>
+        <?php endif; ?>
+        </div>
     </div>
 </div>
 
+<?php if($usuarioLogado): ?>
 <header class="sticky-top border-bottom border-primary-subtle bg-body">
     <div class="container">
         <div class="row align-items-center py-2 justify-content-between">
@@ -48,6 +65,6 @@ require_once __DIR__ . '/../config.php';
 
     </div>
 </header>
-
+<?php endif; ?>
 
 <main class="container my-4">
