@@ -14,7 +14,6 @@ if(!$id){
 try {
     $usuario = buscarUsuarioPorId($conexao, $id);
     if(!$usuario) $erro = "Usuário não encontrado!";
-
 } catch(Throwable $e) {
     $erro = "Erro ao buscar usuário: ".$e->getMessage();
 }

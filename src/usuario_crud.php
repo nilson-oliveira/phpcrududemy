@@ -46,6 +46,12 @@ function atualizarUsuario(PDO $conexao, int $id, string $nome, string $email, st
     $consulta->bindParam(':senha', $senha, PDO::PARAM_STR);
     $consulta->bindParam(':id', $id, PDO::PARAM_INT);
     $consulta->execute();
+}
 
-
+function excluirUsuario(PDO $conexao, int $id): void
+{
+    $sql = "DELETE FROM usuarios WHERE id = :id";
+    $consulta = $conexao->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_INT);
+    $consulta->execute();
 }
