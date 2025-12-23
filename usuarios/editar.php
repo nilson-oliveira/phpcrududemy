@@ -27,7 +27,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if(empty($nome) || empty($email)){
         $erro = "Nome e e-mail são obrigatórios!";
     } else {
-        // Definir a lógica
+        try {
+            $senhaVerificada = empty($senha) ?
+            $usuario['senha'] :
+            verificarSenha($senha, $usuario['senha']);
+
+            atualizarUsuario($conexao, $id, $nome, $email, $senhaVerificada);
+            header("location:listar.php");
+            exit;
+
+        } catch(Throwable $e) {
+            if($e->getCode() == "23000"){
+                $erro = "Este e-mail já existe no registro!";
+            } else {
+                $erro = "Erro ao atualizar: ".$e->getMessage();
+            }
+        }
     }
 }
 

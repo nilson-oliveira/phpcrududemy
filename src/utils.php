@@ -23,4 +23,14 @@ function sanitizar(mixed $entrada, string $tipo = 'texto'): mixed
 function codificarSenha(string $senha): string
 {
     // Retorna o hash da senha
-    return password_hash($senha, PASSWORD_DEFAULT);}
+    return password_hash($senha, PASSWORD_DEFAULT);
+}
+
+function verificarSenha(string $senha, string $senhaBanco): string
+{
+    if(password_verify($senha, $senhaBanco)){
+        return $senhaBanco;
+    } else {
+        return codificarSenha($senha);
+    }
+}
