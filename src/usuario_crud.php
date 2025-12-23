@@ -55,3 +55,13 @@ function excluirUsuario(PDO $conexao, int $id): void
     $consulta->bindParam(':id', $id, PDO::PARAM_INT);
     $consulta->execute();
 }
+
+function buscarPorEmail(PDO $conexao, string $email): ?array
+{
+    $sql = "SELECT * FROM usuarios WHERE email = :email";
+    $consulta = $conexao->prepare($sql);
+    $consulta->bindValue(':email', $email, PDO::PARAM_STR);
+    $consulta->execute();
+    $usuario = $consulta->fetch(PDO::FETCH_ASSOC);
+    return $usuario ?: null;
+}

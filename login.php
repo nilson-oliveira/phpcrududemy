@@ -1,8 +1,34 @@
 <?php
 require_once __DIR__ . '/config.php';
+require_once BASE_PATH . '/src/utils.php';
+require_once BASE_PATH . '/src/usuario_crud.php';
+
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $email = sanitizar($_POST['email'] ?? '', 'email');
+    $senha = $_POST['senha'] ?? '';
+
+    if(empty($email) || empty($senha)){
+        header('location:login.php?campos_obrigatorios');
+        exit;
+    }
+
+    $usuario = buscarPorEmail($conexao, $email);
+
+    if($usuario && password_verify($senha, $usuario['senha'])){
+        login($usuario['id'], $usuario['nome']);
+        header("location:index.php");
+        exit;
+    } else {
+        header("location:index.php?login_invalido");
+        exit;
+    }
+
+}
 
 $mensagens = [
-        'acesso_proibido' => ['Acesso proibido! Você precisa estar logado.', 'danger']
+        'acesso_proibido' => ['Acesso proibido! Você precisa estar logado.', 'danger'],
+        'campos_obrigatorios' => ['E-mail e Senha são obrigatórios!', 'warning'],
+        'login_invalido' => ['E-mail e ou Senha invalidos!', 'danger'],
 ];
 
 $titulo = "Login |";
