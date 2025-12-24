@@ -9,6 +9,10 @@ require_once BASE_PATH . '/src/usuario_crud.php';
 $id = sanitizar($_GET["id"] ?? null, "inteiro");
 $erro = null;
 
+if($id === $_SESSION["id"]){
+    $erro = "<b>" . $_SESSION['nome'] . "</b>, não é possível se auto excluir!!!";
+}
+
 if(!$id){
     header("location:listar.php");
     exit;

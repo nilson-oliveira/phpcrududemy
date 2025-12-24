@@ -10,7 +10,10 @@ function iniciarSessao(): void
 function exigirLogin(): void
 {
     iniciarSessao();
-
+    if (isset($_GET['logout'])){
+        header("location:login.php?logout");
+        exit;
+    }
     if(!isset($_SESSION['id'])){
         header("Location:".BASE_URL."/login.php?acesso_proibido");
         exit;
@@ -28,4 +31,12 @@ function login(int $id, string $nome): void
     iniciarSessao();
     $_SESSION['id'] = $id;
     $_SESSION['nome'] = $nome;
+}
+
+function logout(): void
+{
+    iniciarSessao();
+    session_destroy();
+    header("location:login.php?logout");
+    exit;
 }

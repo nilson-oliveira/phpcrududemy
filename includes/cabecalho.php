@@ -33,8 +33,8 @@ $usuarioLogado = usuarioEstaLogado();
         <div class="d-flex align-items-center">
         <?php if($usuarioLogado): ?>
             <i class="bi bi-person-circle me-2"></i>
-            <span class="me-3">Olá, pessoa!</span>
-            <a href="<?=BASE_URL?>/logot.php" class="btn btn-sm btn-outline-light"><i class="bi bi-box-arrow-right me-2"> Sair</i></a>
+            <span class="me-3">Olá, <?=$_SESSION['nome']?>!</span>
+            <a href="<?=BASE_URL?>/logout.php" class="btn btn-sm btn-outline-light"><i class="bi bi-box-arrow-right me-2"> Sair</i></a>
         <?php else: ?>
             <i class="bi bi-person-x me-2"></i><span class="me-2">Você não está logado!</span>
         <?php endif; ?>

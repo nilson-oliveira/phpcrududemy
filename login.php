@@ -29,6 +29,7 @@ $mensagens = [
         'acesso_proibido' => ['Acesso proibido! Você precisa estar logado.', 'danger'],
         'campos_obrigatorios' => ['E-mail e Senha são obrigatórios!', 'warning'],
         'login_invalido' => ['E-mail e ou Senha invalidos!', 'danger'],
+        'logout' => ['Usuário desconectado com sucesso!', 'success'],
 ];
 
 $titulo = "Login |";
