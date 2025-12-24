@@ -31,7 +31,7 @@ require_once BASE_PATH . '/includes/cabecalho.php';
 
     <div class="table-responsive">
         <table class="table table-hover align-middle caption-top">
-            <caption>Quantidade de registros: 0</caption>
+            <caption>Quantidade de registros: <?=count($fornecedores)?></caption>
             <thead class="align-middle table-light">
                 <tr>
                     <th>ID</th>
