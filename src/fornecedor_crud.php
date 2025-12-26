@@ -16,14 +16,14 @@ function inserirFornecedor(PDO $conexao, $nome): void
     $consulta->execute();
 }
 
-function buscarFornecedorPorId(PDO $conexao, int $id): array
+function buscarFornecedorPorId(PDO $conexao, int $id): ?array
 {
     $sql = "SELECT * FROM fornecedores WHERE id = :id";
     $consulta = $conexao->prepare($sql);
     $consulta->bindParam(':id', $id, PDO::PARAM_INT);
     $consulta->execute();
     $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
-    return $resultado;
+    return $resultado ?: null;
 }
 
 function excluirFornecedor(PDO $conexao, int $id): void
@@ -31,5 +31,14 @@ function excluirFornecedor(PDO $conexao, int $id): void
     $sql = "DELETE FROM fornecedores WHERE id = :id";
     $consulta = $conexao->prepare($sql);
     $consulta->bindParam(':id', $id, PDO::PARAM_INT);
+    $consulta->execute();
+}
+
+function atualizarFornecedor(PDO $conexao, int $id, string $nome): void
+{
+    $sql = "UPDATE fornecedores SET nome = :nome WHERE id = :id";
+    $consulta = $conexao->prepare($sql);
+    $consulta->bindParam(':id', $id, PDO::PARAM_INT);
+    $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
     $consulta->execute();
 }
