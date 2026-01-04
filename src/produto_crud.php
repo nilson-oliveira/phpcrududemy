@@ -14,9 +14,9 @@ function buscarProdutos(PDO $conexao):array
 {
     $sql = "SELECT p.*, f.nome AS nome_fornecedor, data_validade FROM 
         produtos p
-        JOIN fornecedores f
+        LEFT JOIN fornecedores f
         ON p.fornecedor_id = f.id
-        JOIN detalhes_produto d
+        LEFT JOIN detalhes_produto d
         ON p.id = d.produto_id;";
     $consulta = $conexao->prepare($sql);
     $consulta->execute();

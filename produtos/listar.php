@@ -15,8 +15,6 @@ try{
     $erro = "Erro ao buscar produtos ". $e->getMessage();
 }
 
-dump($produtos);
-
 $titulo = "Produtos |";
 require_once BASE_PATH . '/includes/cabecalho.php';
 ?>
