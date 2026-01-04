@@ -1,7 +1,17 @@
 <?php
 require_once __DIR__ . '/../config.php';
+require_once BASE_PATH . '/src/produto_crud.php';
 
 exigirLogin();
+
+$erro = null;
+$produtos = [];
+
+try{
+    $produtos = buscarProdutos($conexao);
+}catch (Throwable $e){
+    $erro = "Erro ao buscar produtos ". $e->getMessage();
+}
 
 $titulo = "Produtos |";
 require_once BASE_PATH . '/includes/cabecalho.php';
@@ -10,7 +20,9 @@ require_once BASE_PATH . '/includes/cabecalho.php';
 <section class="text-center mb-4 border rounded-3 p-4 border-primary-subtle">
     <h3><i class="bi bi-box-fill"></i> Lista de Produtos</h3>
 
-
+    <?php if($erro): ?>
+        <p class="alert alert-danger text-center"><?=$erro?></p>
+    <?php endif; ?>
 
     <p class="text-center my-4">
         <a href="inserir.php" class="btn btn-primary"><i class="bi bi-plus-circle"></i> Adicionar Novo Produto</a>
@@ -31,7 +43,7 @@ require_once BASE_PATH . '/includes/cabecalho.php';
 
     <div class="table-responsive">
         <table class="table table-hover align-middle caption-top">
-            <caption>Quantidade de registros: 0</caption>
+            <caption>Quantidade de registros: <?= count($produtos) ?></caption>
             <thead class="align-middle table-light">
                 <tr>
                     <th>Nome</th>
@@ -43,12 +55,12 @@ require_once BASE_PATH . '/includes/cabecalho.php';
                 </tr>
             </thead>
             <tbody>
-                
+                <?php foreach($produtos as $produto) : ?>
                     <tr>
-                        <td>Nome...</td>
-                        <td>Descrição...</td>
+                        <td><?= $produto['nome'] ?></td>
+                        <td><?= $produto['descricao'] ?></td>
                         <td>Fornecedor...</td>
-                        <td>Preço...</td>
+                        <td><?= $produto['preco'] ?></td>
                         <td>21/12/1975</td>
                         <td class="text-end">
                             <a class="btn btn-warning btn-sm" href="editar.php"><i class="bi bi-pencil-square"></i> Editar</a>
@@ -57,6 +69,7 @@ require_once BASE_PATH . '/includes/cabecalho.php';
                             <a class="btn btn-danger btn-sm" href="excluir.php"><i class="bi bi-trash"></i> Excluir</a>
                         </td>
                     </tr>
+                <? endforeach; ?>
                 
             </tbody>
         </table>
