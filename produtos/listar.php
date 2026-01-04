@@ -1,6 +1,8 @@
 <?php
 require_once __DIR__ . '/../config.php';
 require_once BASE_PATH . '/src/produto_crud.php';
+require_once BASE_PATH . '/src/utils.php';
+
 
 exigirLogin();
 
@@ -12,6 +14,8 @@ try{
 }catch (Throwable $e){
     $erro = "Erro ao buscar produtos ". $e->getMessage();
 }
+
+dump($produtos);
 
 $titulo = "Produtos |";
 require_once BASE_PATH . '/includes/cabecalho.php';
@@ -59,9 +63,9 @@ require_once BASE_PATH . '/includes/cabecalho.php';
                     <tr>
                         <td><?= $produto['nome'] ?></td>
                         <td><?= $produto['descricao'] ?></td>
-                        <td>Fornecedor...</td>
+                        <td><?= $produto['nome_fornecedor'] ?></td>
                         <td><?= $produto['preco'] ?></td>
-                        <td>21/12/1975</td>
+                        <td><?= $produto['data_validade'] ?></td>
                         <td class="text-end">
                             <a class="btn btn-warning btn-sm" href="editar.php"><i class="bi bi-pencil-square"></i> Editar</a>
                         </td>
