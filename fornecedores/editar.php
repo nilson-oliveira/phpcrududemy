@@ -23,12 +23,17 @@ try {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $novoNomeFornecedor = $_POST["nome"];
-    try {
-        atualizarFornecedor($conexao, $id, $novoNomeFornecedor);
-        header("location:listar.php");
-    } catch (Throwable $e){
-        $erro = "Erro ao atualizar fornecedor: " . $e->getMessage();
+    $novoNomeFornecedor = sanitizar($_POST["nome"]);
+
+    if(!$novoNomeFornecedor){
+        $erro = "Preencha o campo nome.";
+    } else{
+        try {
+            atualizarFornecedor($conexao, $id, $novoNomeFornecedor);
+            header("location:listar.php");
+        } catch (Throwable $e){
+            $erro = "Erro ao atualizar fornecedor: " . $e->getMessage();
+        }
     }
 }
 

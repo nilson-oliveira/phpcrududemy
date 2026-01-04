@@ -8,8 +8,14 @@ exigirLogin();
 $id = sanitizar($_GET["id"] ?? null, "inteiro");
 $erro = null;
 
+if(!$id){
+    header('Location: listar.php');
+    exit;
+}
+
 try {
     $fornecedor = buscarFornecedorPorId($conexao, $id);
+    if(!$fornecedor) $erro = "Fornecedor não encontrado!";
 } catch (Throwable $e){
     $erro = "Erro ao listar fornecedor: " . $e->getMessage();
 }
@@ -33,13 +39,14 @@ require_once BASE_PATH . '/includes/cabecalho.php';
 
     <?php if($erro): ?>
         <p class="alert alert-danger text-center"><?=$erro?></p>
+    <?php else: ?>
+        <div class="alert alert-danger w-50 text-center mx-auto">
+            <p>Deseja realmente excluir o fornecedor <b><?=$fornecedor['nome']?? '';?></b>?</p>
+            <a href="listar.php" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Não</a>
+            <a href="?id=<?=$id?>&confirmar-exclusao" class="btn btn-danger"><i class="bi bi-check-circle"></i> Sim</a>
+        </div>
     <?php endif ?>
 
-    <div class="alert alert-danger w-50 text-center mx-auto">
-        <p>Deseja realmente excluir o fornecedor <b><?=$fornecedor['nome']?? '';?></b>?</p>
-        <a href="listar.php" class="btn btn-secondary"><i class="bi bi-x-circle"></i> Não</a>
-        <a href="excluir.php?id=<?=$id?>&confirmar-exclusao" class="btn btn-danger"><i class="bi bi-check-circle"></i> Sim</a>
-    </div>
 </section>
 
 <?php require_once BASE_PATH . '/includes/rodape.php'; ?>

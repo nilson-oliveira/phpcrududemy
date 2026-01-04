@@ -17,9 +17,9 @@ function inserirUsuario(PDO $conexao, string $nome, string $email, string $senha
 
     $consulta = $conexao->prepare($sql);
 
-    $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
-    $consulta->bindParam(':email', $email, PDO::PARAM_STR);
-    $consulta->bindParam(':senha', $senha, PDO::PARAM_STR);
+    $consulta->bindValue(':nome', $nome, PDO::PARAM_STR);
+    $consulta->bindValue(':email', $email, PDO::PARAM_STR);
+    $consulta->bindValue(':senha', $senha, PDO::PARAM_STR);
 
     $consulta->execute();
 
@@ -29,7 +29,7 @@ function buscarUsuarioPorId(PDO $conexao, int $id): ?array
 {
     $sql = "SELECT * FROM usuarios WHERE id = :id";
     $consulta = $conexao->prepare($sql);
-    $consulta->bindParam(':id', $id, PDO::PARAM_INT);
+    $consulta->bindValue(':id', $id, PDO::PARAM_INT);
     $consulta->execute();
     $resultado = $consulta->fetch(PDO::FETCH_ASSOC);
     return $resultado ?: null;
@@ -41,10 +41,10 @@ function atualizarUsuario(PDO $conexao, int $id, string $nome, string $email, st
             WHERE id = :id";
 
     $consulta = $conexao->prepare($sql);
-    $consulta->bindParam(':nome', $nome, PDO::PARAM_STR);
-    $consulta->bindParam(':email', $email, PDO::PARAM_STR);
-    $consulta->bindParam(':senha', $senha, PDO::PARAM_STR);
-    $consulta->bindParam(':id', $id, PDO::PARAM_INT);
+    $consulta->bindValue(':nome', $nome, PDO::PARAM_STR);
+    $consulta->bindValue(':email', $email, PDO::PARAM_STR);
+    $consulta->bindValue(':senha', $senha, PDO::PARAM_STR);
+    $consulta->bindValue(':id', $id, PDO::PARAM_INT);
     $consulta->execute();
 }
 
@@ -52,7 +52,7 @@ function excluirUsuario(PDO $conexao, int $id): void
 {
     $sql = "DELETE FROM usuarios WHERE id = :id";
     $consulta = $conexao->prepare($sql);
-    $consulta->bindParam(':id', $id, PDO::PARAM_INT);
+    $consulta->bindValue(':id', $id, PDO::PARAM_INT);
     $consulta->execute();
 }
 
