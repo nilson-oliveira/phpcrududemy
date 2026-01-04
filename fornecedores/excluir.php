@@ -26,7 +26,11 @@ if (isset($_GET['confirmar-exclusao'])) {
         header("location:listar.php");
         exit;
     } catch (Throwable $e){
-        $erro = "Erro ao excluir fornecedor: " . $e->getMessage();
+        if($e->getCode() === '23000'){
+            $erro = $fornecedor['nome'] . " tem produtos cadastrados e não pode ser excluído!";
+        } else {
+            $erro = "Erro ao excluir fornecedor: " . $e->getMessage();
+        }
     }
 }
 
